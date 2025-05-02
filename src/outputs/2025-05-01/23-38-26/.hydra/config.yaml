@@ -1,0 +1,12 @@
+paths:
+  proj_root: ${hydra:runtime.cwd}/..
+  data_dir: ${paths.proj_root}/data
+  raw_data_dir: ${paths.data_dir}/raw
+  interim_data_dir: ${paths.data_dir}/interim
+  processed_data_dir: ${paths.data_dir}/processed
+  external_data_dir: ${paths.data_dir}/external
+  models_dir: ${paths.proj_root}/models
+  reports_dir: ${paths.proj_root}/reports
+  figures_dir: ${paths.reports_dir}/figures
+logging:
+  use_tqdm: true

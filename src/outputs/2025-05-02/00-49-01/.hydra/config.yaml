@@ -1,0 +1,34 @@
+paths:
+  proj_root: ${hydra:runtime.cwd}/..
+  data_dir: ${paths.proj_root}/data
+  raw_data_dir: ${hydra:runtime.cwd}/../data/raw
+  interim_data_dir: ${paths.data_dir}/interim
+  processed_data_dir: ${hydra:runtime.cwd}/../data/processed
+  external_data_dir: ${paths.data_dir}/external
+  models_dir: ${paths.proj_root}/models
+  reports_dir: ${paths.proj_root}/reports
+  figures_dir: ${paths.reports_dir}/figures
+preprocessing:
+  drop_cols:
+  - PassengerId
+  - Name
+  - Ticket
+  cat_features:
+  - Sex
+  - Cabin
+  - Embarked
+  num_features:
+  - Age
+  passthrough_features:
+  - Survived
+  - Pclass
+  - SibSp
+  - Parch
+  - Fare
+  test_size: 0.3
+  random_state: 42
+imputation:
+  cat_strategy: most_frequent
+  num_strategy: mean
+logging:
+  use_tqdm: true
