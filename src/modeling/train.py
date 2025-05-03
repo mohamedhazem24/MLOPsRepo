@@ -4,12 +4,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from pathlib import Path
 import joblib
-from omegaconf import OmegaConf
-
 from loguru import logger
 import hydra
 from omegaconf import DictConfig
 from hydra.utils import to_absolute_path
+from omegaconf import OmegaConf
 
 # Setup logger
 logger.add("training_log.log", rotation="500 KB", retention="5 days", level="INFO")
@@ -17,7 +16,8 @@ logger.add("training_log.log", rotation="500 KB", retention="5 days", level="INF
 @hydra.main(version_base=None, config_path="..", config_name="config")
 def main(cfg: DictConfig):
     logger.info("🧠 Starting model training with GridSearchCV...")
-    
+    paths=OmegaConf.create(cfg.paths)
+    print(paths)
     # Convert paths to absolute paths
     features_path = Path(to_absolute_path(cfg.paths.processed_data_dir)) / "train.csv"
     model_lr_path = Path(to_absolute_path(cfg.paths.models_dir)) / "logistic_regression_model.pkl"
@@ -79,6 +79,8 @@ def main(cfg: DictConfig):
 
     # Save models
     logger.info("💾 Saving models...")
+    logger.warning(lr_grid.best_estimator_)
+    logger.warning(model_lr_path)
     joblib.dump(lr_grid.best_estimator_, model_lr_path)
     joblib.dump(rf_grid.best_estimator_, model_rf_path)
     logger.success(f"Models saved to {cfg.paths.models_dir}")

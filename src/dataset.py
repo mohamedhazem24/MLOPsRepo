@@ -33,8 +33,6 @@ def main(cfg: DictConfig):
     passthrough_features = ["Survived", "Pclass", "SibSp", "Parch", "Fare"]
     test_size = cfg.preprocessing.test_size
     random_state = cfg.preprocessing.random_state
-    if ["Sex", "Cabin", "Embarked"] == cfg.preprocessing.cat_features:
-        print("HeLL Yeaaaaaah!!!!!!")
 
     def preprocess_df(X):
         logger.debug("🔍 Extracting first letter from 'Cabin' and dropping unused columns...")
