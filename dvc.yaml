@@ -1,0 +1,36 @@
+vars:
+  - config: src/config.yaml  # Point to your Hydra config file
+
+stages:
+  preprocess:
+    cmd: python src/dataset.py
+    deps:
+      - src/dataset.py
+      - src/config.yaml
+      - data/raw/titanic.csv
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+
+  train:
+    cmd: python src/modeling/train.py
+    deps:
+      - src/modeling/train.py
+      - data/processed/train.csv
+      - src/config.yaml
+    outs:
+      - models/random_forest_model.pkl
+      - models/logistic_regression_model.pkl
+
+
+  evaluate:
+    cmd: python src/modeling/predict.py
+    deps:
+      - src/modeling/predict.py
+      - data/processed/test.csv
+      - models/random_forest_model.pkl
+      - models/logistic_regression_model.pkl
+      - src/config.yaml
+    metrics:
+      - reports/classification_metrics.json

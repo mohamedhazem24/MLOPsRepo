@@ -1,5 +1,9 @@
 # Data
-/data/
+/data/*
+!/data/.gitignore
+!/data/*.dvc
+!/data/.dvc/
+
 
 # Mac OS-specific storage files
 .DS_Store
@@ -184,3 +188,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Add dvc config files
+.dvc
