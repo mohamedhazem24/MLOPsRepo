@@ -1,0 +1,15 @@
+artifact_uri: file:///teamspace/studios/this_studio/mlopsrepo/mlruns/0/023103c64f884941842fe0b987f0f9fd/artifacts
+end_time: 1746656507163
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 023103c64f884941842fe0b987f0f9fd
+run_name: serious-calf-298
+run_uuid: 023103c64f884941842fe0b987f0f9fd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746656507155
+status: 4
+tags: []
+user_id: mhazemcs

@@ -1,0 +1,15 @@
+artifact_uri: file:///teamspace/studios/this_studio/mlopsrepo/mlruns/0/68e0fc8a0c9648a49174b2f063d0fdf1/artifacts
+end_time: 1746656533965
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 68e0fc8a0c9648a49174b2f063d0fdf1
+run_name: casual-shrew-256
+run_uuid: 68e0fc8a0c9648a49174b2f063d0fdf1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746656533954
+status: 4
+tags: []
+user_id: mhazemcs

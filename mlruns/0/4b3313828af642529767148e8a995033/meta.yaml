@@ -1,0 +1,15 @@
+artifact_uri: file:///teamspace/studios/this_studio/mlopsrepo/mlruns/0/4b3313828af642529767148e8a995033/artifacts
+end_time: 1746656620212
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 4b3313828af642529767148e8a995033
+run_name: salty-cod-635
+run_uuid: 4b3313828af642529767148e8a995033
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746656620203
+status: 4
+tags: []
+user_id: mhazemcs

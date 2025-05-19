@@ -1,0 +1,15 @@
+artifact_uri: file:///teamspace/studios/this_studio/mlopsrepo/mlruns/0/78c304b934b447dda45c1dd7f5010a43/artifacts
+end_time: 1746656964697
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 78c304b934b447dda45c1dd7f5010a43
+run_name: gifted-shrike-0
+run_uuid: 78c304b934b447dda45c1dd7f5010a43
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746656964674
+status: 4
+tags: []
+user_id: mhazemcs

@@ -1,0 +1,15 @@
+artifact_uri: file:///teamspace/studios/this_studio/mlopsrepo/mlruns/0/fee0d874d3894b72a95d0d321f15f81e/artifacts
+end_time: 1746656924307
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: fee0d874d3894b72a95d0d321f15f81e
+run_name: loud-fowl-456
+run_uuid: fee0d874d3894b72a95d0d321f15f81e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746656924298
+status: 4
+tags: []
+user_id: mhazemcs

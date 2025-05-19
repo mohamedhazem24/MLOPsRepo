@@ -1,0 +1,15 @@
+artifact_uri: file:///teamspace/studios/this_studio/mlopsrepo/mlruns/0/52269b210ab3454e84a7dd0646bc1b1f/artifacts
+end_time: 1746656380132
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 52269b210ab3454e84a7dd0646bc1b1f
+run_name: useful-vole-842
+run_uuid: 52269b210ab3454e84a7dd0646bc1b1f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746656380124
+status: 4
+tags: []
+user_id: mhazemcs

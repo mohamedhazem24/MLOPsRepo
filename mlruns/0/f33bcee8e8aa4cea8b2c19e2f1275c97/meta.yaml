@@ -1,0 +1,15 @@
+artifact_uri: file:///teamspace/studios/this_studio/mlopsrepo/mlruns/0/f33bcee8e8aa4cea8b2c19e2f1275c97/artifacts
+end_time: 1746656648461
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f33bcee8e8aa4cea8b2c19e2f1275c97
+run_name: calm-ant-565
+run_uuid: f33bcee8e8aa4cea8b2c19e2f1275c97
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746656648446
+status: 4
+tags: []
+user_id: mhazemcs

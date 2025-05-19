@@ -1,0 +1,15 @@
+artifact_uri: file:///teamspace/studios/this_studio/mlopsrepo/mlruns/0/ebed8794bd604c54a459537c4bb8b02f/artifacts
+end_time: 1746656288483
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ebed8794bd604c54a459537c4bb8b02f
+run_name: exultant-skunk-169
+run_uuid: ebed8794bd604c54a459537c4bb8b02f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746656288474
+status: 4
+tags: []
+user_id: mhazemcs

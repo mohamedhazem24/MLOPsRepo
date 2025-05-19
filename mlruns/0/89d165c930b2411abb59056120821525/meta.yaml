@@ -1,0 +1,15 @@
+artifact_uri: file:///teamspace/studios/this_studio/mlopsrepo/mlruns/0/89d165c930b2411abb59056120821525/artifacts
+end_time: 1746656199281
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 89d165c930b2411abb59056120821525
+run_name: rumbling-ant-677
+run_uuid: 89d165c930b2411abb59056120821525
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746656199268
+status: 4
+tags: []
+user_id: mhazemcs
