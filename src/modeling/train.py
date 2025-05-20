@@ -44,7 +44,7 @@ def main(cfg: DictConfig):
     features_path = Path(to_absolute_path(cfg.paths.processed_data_dir)) / "train_raw.csv"
     model_lr_path = Path(to_absolute_path(cfg.paths.models_dir)) / "logistic_regression_model.pkl"
     model_rf_path = Path(to_absolute_path(cfg.paths.models_dir)) / "random_forest_model.pkl"
-    full_pipeline_path:Path = Path(to_absolute_path(cfg.paths.processed_data_dir))/"preprocessing_pipeline.pkl"
+    full_pipeline_path: Path = Path(to_absolute_path(cfg.paths.processed_data_dir))/"preprocessing_pipeline.pkl"
     model_lr_pipeline_path = Path(to_absolute_path(cfg.paths.models_dir)) / "logistic_regression_pipelined.pkl"
     model_rf_pipeline_path = Path(to_absolute_path(cfg.paths.models_dir)) / "random_forest_pipelined.pkl"
         
@@ -89,8 +89,7 @@ def main(cfg: DictConfig):
     # GridSearchCV for Logistic Regression
     logger.info("🔍 Tuning Logistic Regression...")
     lr_param_grid = OmegaConf.to_container(cfg.hyperparameters.logistic_regression, resolve=True)
-    logger.error(type(lr_param_grid) )
-    logger.error(lr_param_grid )
+    
     # Create pipeline with the preprocessing and model
     lr_pipeline = Pipeline([
         ('preprocessor', full_pipeline),
@@ -114,7 +113,6 @@ def main(cfg: DictConfig):
     joblib.dump(lr_grid.best_estimator_, model_lr_pipeline_path)
     
     with mlflow.start_run():
-        logger.warning(lr_grid.best_estimator_)
         y_pred = lr_grid.best_estimator_.predict(X_test)
         mlflow.log_metrics({
             "accuracy": accuracy_score(y_test, y_pred),
@@ -152,19 +150,11 @@ def main(cfg: DictConfig):
     joblib.dump(rf_grid.best_estimator_, model_rf_pipeline_path)
     
     with mlflow.start_run():
-        y_pred = rf_grid.best_estimator_.predict(X_test)
-        mlflow.log_metrics({
-            "accuracy": accuracy_score(y_test, y_pred),
-            "precision": precision_score(y_test, y_pred),
-            "recall": recall_score(y_test, y_pred),
-            "f1_score": f1_score(y_test, y_pred)
-        })
-        mlflow.sklearn.log_model(rf_grid.best_estimator_, "Random_Forest_pipe")
-        mlflow.log_artifact(model_rf_pipeline_path)
-        
+        logger.success("MlFlow Client Start")
         client = MlflowClient()
+        logger.success("MlFlow Client Start")
         run_id = mlflow.active_run().info.run_id
-        model_uri = f"runs:/{run_id}/model"
+        model_uri = f"runs:/{run_id}/Random_Forest"  # ✅ FIXED HERE
 
         try:
             client.create_registered_model("Random_Forest")
@@ -176,14 +166,18 @@ def main(cfg: DictConfig):
             source=model_uri,
             run_id=run_id
         )
+
         client.transition_model_version_stage(
             name="Random_Forest",
             version=result.version,
-            stage="Production"
+            stage="Production",
+            archive_existing_versions=False  # ⬅️ optional: archives old prod version
         )
+    logged_model = model_uri
 
-    logger.success(f"Models saved to {cfg.paths.models_dir}")
-    logger.success("🎉 Training complete!")
+    # Load model as a PyFuncModel.
+    loaded_model = mlflow.pyfunc.load_model(logged_model)
+    logger.error(loaded_model)
 
 if __name__ == "__main__":
     main()

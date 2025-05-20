@@ -8,41 +8,26 @@ from pathlib import Path
 import os
 import pandas as pd
 from dotenv import load_dotenv
-def preprocess_df(X,drop_cols):
-    X = X.copy()
-    X = X.drop(columns=drop_cols)
-    X["Cabin"] = X["Cabin"].astype(str).str[0]
-    return X
+import numpy as np
+import litserve as ls
+import pickle
+from fastapi import FastAPI
+from lightning.app import LightningWork
+
+import uvicorn
+
+
 class InferenceAPI(ls.LitAPI):
-    def setup(self, device = "cpu",cfg=None):
-        self.features_path: Path = Path(cfg.paths.processed_data_dir) / 'test_raw.csv'
-        self.model_path_1: Path = Path(to_absolute_path(cfg.paths.models_dir)) / "logistic_regression_model.pkl"
-        self.pipeline_path: Path = Path(cfg.paths.processed_data_dir) /'preprocessing_pipeline.pkl'
-        self.drop_cols = cfg.preprocessing.drop_cols
-        self.cat_features = list(cfg.preprocessing.cat_features)
-        self.num_features = list(cfg.preprocessing.num_features)
-        self.passthrough_features = list(cfg.preprocessing.passthrough_features)
-        self.cat_columns = [f"cat_{col}" for col in self.cat_features]
-        self.num_columns = self.num_features.copy()
-        self.all_columns = self.cat_columns + self.num_columns + self.passthrough_features
-
-        load_dotenv()
-        self.username = os.getenv("DAGSHUB_USERNAME")
-        self.token = os.getenv("DAGSHUB_TOKEN")
-
-        with open(cfg.paths.model_path_1, "rb") as pkl:
+    def setup(self, device = "cpu"):
+        with open("/teamspace/studios/this_studio/mlopsrepo/models/logistic_regression_pipelined.pkl", "rb") as pkl:
             self._model = pickle.load(pkl)
-        with open("/teamspace/studios/this_studio/mlopsrepo/data/processed/preprocessing_pipeline.pkl", "rb") as pkl:
-            self._pipeline = pickle.load(pkl)
-        
-
+        self._encoder= {1:"Survived",0:"Died"}
     def decode_request(self, request):
         try:
             InferenceRequest(**request["input"])
-            data = [(ky,val) for ky,val in request["input"]]
-            x=pd.DataFrame(data)
-            x=pd.DataFrame(self._pipeline.transform(x))
-            x=x.drop('Survived',axis=1)
+            data = [val for val in request["input"].values()]
+            x = np.asarray(data)
+            x = np.expand_dims(x, 0)
             return x
         except:
             return None
@@ -60,5 +45,28 @@ class InferenceAPI(ls.LitAPI):
             message = "Response Produced Successfully"
         return {
             "message": message,
-            "prediction": [output]
+            "prediction": [self._encoder[val] for val in output]
         }
+
+class ModelServer(LightningWork):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.api = InferenceAPI()
+        self.server = ls.LitServer(self.api, port=self.port)
+
+    def run(self):
+        self.server.run()
+
+# Create a Lightning App
+app = FastAPI()
+model_server = ModelServer(port=8000)
+
+@app.post("/predict")
+async def predict(request_data: dict):
+    x = model_server.api.decode_request(request_data)
+    output = model_server.api.predict(x)
+    return model_server.api.encode_response(output)
+
+# Run the app (for testing)
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

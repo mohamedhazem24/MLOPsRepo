@@ -55,11 +55,17 @@ def main(cfg: DictConfig):
             model_1 = joblib.load(f)
         with open(model_rf_pipeline_path, 'rb') as f:
             model_2 = joblib.load(f)
+        '''
+        logged_model = 'runs:/609ef5faf94b42edbd8c3bc2347f9e7b/Random_Forest'
 
+        # Load model as a PyFuncModel.
+        loaded_model = mlflow.pyfunc.load_model(logged_model)
+        
+        print(f"The Type :{type(loaded_model)}")
+        logger.error(loaded_model) 
+        '''
         with open(pipeline_path,'rb') as f:
             pipeline=joblib.load(f)
-        
-        logged_model = 'runs:/cbd9e9b8aa4c4cde89b49998cbfb05b4/Random_Forest'
         
         drop_cols = cfg.preprocessing.drop_cols
         cat_features = list(cfg.preprocessing.cat_features)
@@ -77,11 +83,13 @@ def main(cfg: DictConfig):
         all_columns = cat_columns + num_columns + passthrough_features
         df = pd.read_csv(features_path)
         X = df.drop("Survived", axis=1)
-        logger.error(type(model_1))
-        logger.error(model_1)
+
         
         y_pred=model_1.predict(X)
-        logger.error(y_pred)
+        #y_pred_trail=loaded_model.predict(X)
+        #logger.warning("Predictionss")
+        #logger.warning(y_pred_trail)
+        
         
         y = df['Survived']  # Removed double brackets to make it a Series
 
