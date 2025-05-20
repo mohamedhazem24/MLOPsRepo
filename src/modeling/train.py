@@ -171,13 +171,10 @@ def main(cfg: DictConfig):
             name="Random_Forest",
             version=result.version,
             stage="Production",
-            archive_existing_versions=False  # ⬅️ optional: archives old prod version
+            archive_existing_versions=True  # ⬅️ optional: archives old prod version
         )
     logged_model = model_uri
 
-    # Load model as a PyFuncModel.
-    loaded_model = mlflow.pyfunc.load_model(logged_model)
-    logger.error(loaded_model)
 
 if __name__ == "__main__":
     main()
